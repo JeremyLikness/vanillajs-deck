@@ -1,0 +1,47 @@
+body {
+    padding: 5px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
+h1, h2, h3 {
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+div#main {
+    height: 80vh;
+    padding: 1em;
+    background: lightgray;
+}
+
+div#footer-left {
+    vertical-align: middle;
+    height: 15vh;
+    float: left;
+}
+
+div#footer-left img {
+    display: inline-block;
+}
+
+div#footer-right {
+    font-size: 2em;
+    height: 15vh;
+    float: right;
+}
+
+nextslide {
+    display: none;
+}
