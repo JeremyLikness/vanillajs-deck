@@ -11,10 +11,10 @@ export async function loadSlides(start) {
     const slides = [];
     const cycle = {};
     while (next) {
-        const nextSlide = await loadSlide(next);
-        if (!cycle[nextSlide.title]) {
+        if (!cycle[next]) {
+            cycle[next] = true;
+            const nextSlide = await loadSlide(next);
             slides.push(nextSlide);
-            cycle[nextSlide.title] = nextSlide;
             next = nextSlide.nextSlide;
         }
         else {

@@ -20,26 +20,37 @@ img {
     height: auto;
 }
 
-div#main {
+.footer {
+    float: left;
+    height: 15vh;
+    font-size: 1.5em;
+    vertical-align: middle;
+    width: 32vw;
+}
+
+.right {
+    text-align: right;
+}
+
+.left {
+    text-align: left;
+}
+
+.center {
+    text-align: center;
+}
+
+slide-deck div {
     height: 80vh;
     padding: 1em;
     background: lightgray;
 }
 
-div#footer-left {
-    vertical-align: middle;
+slide-controls {
     height: 15vh;
+    width: 33vw;
+    text-align: center;
     float: left;
-}
-
-div#footer-left img {
-    display: inline-block;
-}
-
-div#footer-right {
-    font-size: 2em;
-    height: 15vh;
-    float: right;
 }
 
 nextslide {
