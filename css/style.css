@@ -1,6 +1,29 @@
 body {
     padding: 5px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 5vh;
+}
+
+button {
+    font-size: 5vh;
+}
+
+@media only screen and (max-width: 800px) {
+    body {
+        font-size: 14px;
+    }
+    button {
+        font-size: 14px;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    body {
+        font-size: 3vh;
+    }
+    button {
+        font-size: 14px;
+    }
 }
 
 h1, h2, h3 {
@@ -23,7 +46,6 @@ img {
 .footer {
     float: left;
     height: 15vh;
-    font-size: 1.5em;
     vertical-align: middle;
     width: 32vw;
 }
@@ -44,6 +66,24 @@ slide-deck div {
     height: 80vh;
     padding: 1em;
     background: lightgray;
+}
+
+@media only screen and (max-width: 960px) {
+    .footer {
+        float: none;
+        width: 100%;
+        height: auto;
+        margin-top: 2px;
+    }
+    .right {
+        text-align: center;
+    }
+    .left {
+        text-align: center;
+    }
+    slide-deck div {
+        height: 75vh;
+    }
 }
 
 slide-controls {
