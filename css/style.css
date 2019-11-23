@@ -65,7 +65,7 @@ img {
 slide-deck div {
     height: 80vh;
     padding: 1em;
-    background: lightgray;
+    border: solid 2px lightgray;
 }
 
 @media only screen and (max-width: 960px) {
@@ -93,6 +93,6 @@ slide-controls {
     float: left;
 }
 
-nextslide {
+nextslide, transition {
     display: none;
 }

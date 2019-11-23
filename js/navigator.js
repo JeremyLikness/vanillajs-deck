@@ -1,10 +1,12 @@
 import { loadSlides } from "./slideLoader.js"
 import { Router } from "./router.js"
+import { Animator } from "./animator.js"
 
 class Navigator extends HTMLElement {
 
     constructor() {
         super();
+        this._animator = new Animator();
         this._router = new Router();
         this._route = this._router.getRoute();
         this.slidesChangedEvent = new CustomEvent("slideschanged", {
@@ -61,6 +63,9 @@ class Navigator extends HTMLElement {
     }
 
     jumpTo(slideIdx) {
+        if (this._animator.transitioning) {
+            return;
+        }
         if (slideIdx >= 0 && slideIdx < this.totalSlides) {
             this._currentIndex = slideIdx;
             this.innerHTML = '';
@@ -68,12 +73,23 @@ class Navigator extends HTMLElement {
             this._router.setRoute(slideIdx+1);         
             this._route = this._router.getRoute();
             this.dispatchEvent(this.slidesChangedEvent);
+            if (this._animator.animationReady) {
+                this._animator.endAnimation(this.querySelector("div"));
+            }
         }
     }
 
     next() {
         if (this.hasNext) {
-            this.jumpTo(this.currentIndex + 1);
+            if (this.currentSlide.transition !== null) {
+                this._animator.beginAnimation(
+                    this.currentSlide.transition, 
+                    this.querySelector("div"),
+                    () => this.jumpTo(this.currentIndex+1));
+            }
+            else {
+                this.jumpTo(this.currentIndex + 1);
+            }
         }
     }
 

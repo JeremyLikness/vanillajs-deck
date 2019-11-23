@@ -1,0 +1,21 @@
+@keyframes slide-left {
+    from { margin-left: 0vw; }
+    to { margin-left: -100vw; }
+}
+
+@keyframes enter-right {
+    from { margin-left: 100vw; }
+    to { margin-left: 0vw; }
+}
+
+.anim-slide-left-begin {
+    animation-name: slide-left;
+    animation-timing-function: ease-in;
+    animation-duration: 0.5s;
+}
+
+.anim-slide-left-end {
+    animation-name: enter-right;
+    animation-timing-function: ease-out;
+    animation-duration: 0.3s;
+}
