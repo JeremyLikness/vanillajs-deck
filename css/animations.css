@@ -19,3 +19,15 @@
     animation-timing-function: ease-out;
     animation-duration: 0.3s;
 }
+
+@keyframes spin {
+    from { transform: rotate(0deg) }
+    to { transform: rotate(360deg) }
+}
+
+.anim-spin {
+    animation-name: spin;
+    animation-timing-function: ease-in-out;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
