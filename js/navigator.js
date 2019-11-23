@@ -38,6 +38,7 @@ class Navigator extends HTMLElement {
                     slide = parseInt(this._route) - 1;
                 }
                 this.jumpTo(slide);
+                this._title = document.querySelectorAll("title")[0];
             }
         }
     }
@@ -72,6 +73,7 @@ class Navigator extends HTMLElement {
             this.appendChild(this.currentSlide.html);
             this._router.setRoute(slideIdx+1);         
             this._route = this._router.getRoute();
+            document.title = `${this.currentIndex+1}/${this.totalSlides}: ${this.currentSlide.title}`;
             this.dispatchEvent(this.slidesChangedEvent);
             if (this._animator.animationReady) {
                 this._animator.endAnimation(this.querySelector("div"));
