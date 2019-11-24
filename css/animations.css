@@ -1,11 +1,19 @@
 @keyframes slide-left {
-    from { margin-left: 0vw; }
-    to { margin-left: -100vw; }
+    from {
+        margin-left: 0vw;
+    }
+    to {
+        margin-left: -100vw;
+    }
 }
 
 @keyframes enter-right {
-    from { margin-left: 100vw; }
-    to { margin-left: 0vw; }
+    from {
+        margin-left: 100vw;
+    }
+    to {
+        margin-left: 0vw;
+    }
 }
 
 .anim-slide-left-begin {
@@ -21,8 +29,12 @@
 }
 
 @keyframes spin {
-    from { transform: rotate(0deg) }
-    to { transform: rotate(360deg) }
+    from {
+        transform: rotate(0deg)
+    }
+    to {
+        transform: rotate(360deg)
+    }
 }
 
 .anim-spin {

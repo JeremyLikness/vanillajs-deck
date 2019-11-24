@@ -1,9 +1,22 @@
+// @ts-check
+
 import { loadSlides } from "./slideLoader.js"
+import { Slide } from "./slide.js"
 import { Router } from "./router.js"
 import { Animator } from "./animator.js"
 
-class Navigator extends HTMLElement {
+/**
+ * The main class that handles rendering the slide decks
+ * @property {Animator} _animator Animation helper
+ * @property {Router} _router Routing helper
+ * @property {string} _route The current route
+ * @property {CustomEvent} slidesChangedEvent Event fired when slide changes
+ */
+export class Navigator extends HTMLElement {
 
+    /**
+     * Create an instance of the custom navigator element
+     */
     constructor() {
         super();
         this._animator = new Animator();
@@ -19,15 +32,25 @@ class Navigator extends HTMLElement {
                 if (this._route) {
                     var slide = parseInt(this._route) - 1;
                     this.jumpTo(slide);
-                }           
+                }
             }
         });
     }
 
+    /**
+     * Get the list of observed attributes
+     * @returns {string[]}
+     */
     static get observedAttributes() {
         return ["start"];
     }
 
+    /**
+     * Called when an attribute changes
+     * @param {string} attrName 
+     * @param {string} oldVal 
+     * @param {string} newVal 
+     */
     async attributeChangedCallback(attrName, oldVal, newVal) {
         if (attrName === "start") {
             if (oldVal !== newVal) {
@@ -43,26 +66,50 @@ class Navigator extends HTMLElement {
         }
     }
 
+    /**
+     * Current slide index
+     * @returns {number}
+     */
     get currentIndex() {
         return this._currentIndex;
     }
 
+    /**
+     * Current slide
+     * @returns {Slide}
+     */
     get currentSlide() {
         return this._slides ? this._slides[this._currentIndex] : null;
     }
 
+    /**
+     * Total number of slides
+     * @returns {number}
+     */
     get totalSlides() {
         return this._slides ? this._slides.length : 0;
     }
 
+    /**
+     * True if a previous slide exists
+     * @returns {boolean}
+     */
     get hasPrevious() {
         return this._currentIndex > 0;
     }
 
+    /**
+     * True if a next slide exists
+     * @returns {boolean}
+     */
     get hasNext() {
         return this._currentIndex < (this.totalSlides - 1);
     }
 
+    /**
+     * Main slide navigation: jump to specific slide
+     * @param {number} slideIdx 
+     */
     jumpTo(slideIdx) {
         if (this._animator.transitioning) {
             return;
@@ -71,9 +118,9 @@ class Navigator extends HTMLElement {
             this._currentIndex = slideIdx;
             this.innerHTML = '';
             this.appendChild(this.currentSlide.html);
-            this._router.setRoute(slideIdx+1);         
+            this._router.setRoute((slideIdx + 1).toString());
             this._route = this._router.getRoute();
-            document.title = `${this.currentIndex+1}/${this.totalSlides}: ${this.currentSlide.title}`;
+            document.title = `${this.currentIndex + 1}/${this.totalSlides}: ${this.currentSlide.title}`;
             this.dispatchEvent(this.slidesChangedEvent);
             if (this._animator.animationReady) {
                 this._animator.endAnimation(this.querySelector("div"));
@@ -81,13 +128,16 @@ class Navigator extends HTMLElement {
         }
     }
 
+    /**
+     * Advance to next slide, if it exists. Applies animation if transition is specified
+     */
     next() {
         if (this.hasNext) {
             if (this.currentSlide.transition !== null) {
                 this._animator.beginAnimation(
-                    this.currentSlide.transition, 
+                    this.currentSlide.transition,
                     this.querySelector("div"),
-                    () => this.jumpTo(this.currentIndex+1));
+                    () => this.jumpTo(this.currentIndex + 1));
             }
             else {
                 this.jumpTo(this.currentIndex + 1);
@@ -95,6 +145,9 @@ class Navigator extends HTMLElement {
         }
     }
 
+    /**
+     * Move to previous slide, if it exists
+     */
     previous() {
         if (this.hasPrevious) {
             this.jumpTo(this.currentIndex - 1);
@@ -102,4 +155,7 @@ class Navigator extends HTMLElement {
     }
 }
 
+/**
+ * Register the custom slide-deck component
+ */
 export const registerDeck = () => customElements.define('slide-deck', Navigator);
