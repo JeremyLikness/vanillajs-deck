@@ -1,5 +1,7 @@
 // @ts-check
-/** Represents a slide */
+/** 
+ * Represents a slide 
+ * */
 export class Slide {
 
     /**
@@ -7,16 +9,29 @@ export class Slide {
      * @param {string} text - The content of the slide 
      */
     constructor(text) {
-        /** @property {string} _text - internal text representation */
+        /** 
+         * Internal text representation of the slide
+         * @type {string}
+         */
         this._text = text;
-        /** @property {HTMLDivElement} _html - host div */
+        /** 
+         * The HTML DOM hosting the slide contents
+         * @type {HTMLDivElement}
+         */
         this._html = document.createElement('div');
         this._html.innerHTML = text;
-        /** @property {string} _title - title of the slide */
+        /**
+         * The title of the slide
+         * @type {string}
+         */
         this._title = this._html.querySelectorAll("title")[0].innerText;
         /** @type{NodeListOf<HTMLElement>} */
         const transition = (this._html.querySelectorAll("transition"));
         if (transition.length) {
+            /**
+             * The name of the animation to use for transitions
+             * @type {string}
+             */
             this._transition = transition[0].innerText;
         }
         else {
@@ -25,6 +40,10 @@ export class Slide {
         /** @type{NodeListOf<HTMLElement>} */
         const hasNext = this._html.querySelectorAll("nextslide");
         if (hasNext.length > 0) {
+            /** 
+             * The name of the next slide to load
+             * @type {string}
+             */
             this._nextSlideName = hasNext[0].innerText;
         }
         else {
@@ -34,7 +53,7 @@ export class Slide {
 
     /** 
      * The slide transition
-     * @return{string} The transition name
+     * @returns {string} The transition name
      */
     get transition() {
         return this._transition;
@@ -42,7 +61,7 @@ export class Slide {
 
     /** 
      * The slide title
-     * @return{string} The slide title
+     * @returns {string} The slide title
      */
     get title() {
         return this._title;
@@ -50,7 +69,7 @@ export class Slide {
 
     /**
      * The HTML DOM node for the slide
-     * @return{HTMLDivElement} The HTML content
+     * @returns {HTMLDivElement} The HTML content
      */
     get html() {
         return this._html;
@@ -58,7 +77,7 @@ export class Slide {
 
     /**
      * The name of the next slide (filename without the .html extension)
-     * @return{string} The name of the next slide
+     * @returns {string} The name of the next slide
      */
     get nextSlide() {
         return this._nextSlideName;

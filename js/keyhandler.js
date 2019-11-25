@@ -4,6 +4,7 @@ import { Navigator } from "./navigator.js"
 
 /**
  * Custom element to handle key press
+ * @extends {HTMLElement}
  */
 export class KeyHandler extends HTMLElement {
 
@@ -12,8 +13,8 @@ export class KeyHandler extends HTMLElement {
      */
     constructor() {
         super();
-        /** 
-         * The related Navigator element
+        /**
+         * The related Navigator instance (deck) to handle key press events for
          * @type {Navigator}
          */
         this._deck = null;

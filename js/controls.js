@@ -13,6 +13,7 @@ import { Navigator } from "./navigator.js"
 
 /**
  * Custom element that renders controls to navigate the deck
+ * @extends {HTMLElement}
  */
 export class Controls extends HTMLElement {
 
@@ -21,9 +22,15 @@ export class Controls extends HTMLElement {
      */
     constructor() {
         super();
-        /** @type {CustomRef} */
+        /**
+         * The internal reference list of controls
+         * @type {CustomRef}
+         */
         this._controlRef = null;
-        /** @type {Navigator} */
+        /**
+         * The related Navigator instance (deck) to control
+         * @type {Navigator}
+         */
         this._deck = null;
     }
 
@@ -53,7 +60,7 @@ export class Controls extends HTMLElement {
 
     /**
      * Get the list of attributes to watch
-     * @returns {string[]}
+     * @returns {string[]} List of observable attributes
      */
     static get observedAttributes() {
         return ["deck"];

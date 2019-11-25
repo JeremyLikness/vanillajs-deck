@@ -5,20 +5,26 @@
  */
 export class Router {
 
+    /**
+     * Create a new Router instance
+     */
     constructor() {
-        /** 
-         * @property {HTMLDivElement} _eventSource Arbitrary DIV used to generate events
+        /**
+         * Arbitrary element to source events
+         * @type {HTMLDivElement}
          */
         this._eventSource = document.createElement("div");
         /**
-         * @property {CustomEvent} _routeChanged Custom event raised when the route changes
+         * Custom event raised when the route changes
+         * @type {CustomEvent}
          */
         this._routeChanged = new CustomEvent("routechanged", {
             bubbles: true,
             cancelable: false
         });
         /**
-         * @property {string} _route The current route
+         * The current route
+         * @type {string}
          */
         this._route = null;
         window.addEventListener("popstate", () => {
