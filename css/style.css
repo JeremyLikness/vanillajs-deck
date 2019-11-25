@@ -1,11 +1,11 @@
 body {
     padding: 5px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 4vh;
+    font-size: 3vh;
 }
 
 button {
-    font-size: 4vh;
+    font-size: 3vh;
 }
 
 pre {
@@ -20,10 +20,24 @@ pre {
     font-family: "consolas", sans-serif
 }
 
-slide-deck img {
+video {
+    height: 40vh;
+    max-width: 90vw;
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+
+slide-deck img {
+    display: block;
+    max-height: 60vh;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+slide-deck img.expandable:hover {
+    margin-top: -20vh;
+    max-height: 80vh;
 }
 
 @media only screen and (max-width: 800px) {
@@ -37,7 +51,7 @@ slide-deck img {
 
 @media only screen and (max-width: 1200px) {
     body {
-        font-size: 3vh;
+        font-size: 2vh;
     }
     button {
         font-size: 14px;
@@ -59,6 +73,10 @@ a:hover {
 img {
     max-width: 100%;
     height: auto;
+}
+
+.appear {
+    display: none;
 }
 
 .footer {

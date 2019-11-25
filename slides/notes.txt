@@ -1,0 +1,7 @@
+Hammer vs watch
+JavaScript .  Plugins... JavaScript
+Building
+3 D's..  how do they work now
+Html5/css3
+Show compatible browsers then zoom in top 4 w/mobile
+data-binding https://gist.github.com/austinhyde/4321f22a476e1cbee65f

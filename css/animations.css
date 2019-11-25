@@ -28,6 +28,36 @@
     animation-duration: 0.3s;
 }
 
+@keyframes fade-out {
+    from {
+        opacity: 100;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 100;
+    }
+}
+
+.anim-fade-begin {
+    animation-name: fade-out;
+    animation-timing-function: ease-in;
+    animation-duration: 0.5s;
+}
+
+.anim-fade-end {
+    animation-name: fade-in;
+    animation-timing-function: ease-out;
+    animation-duration: 0.3s;
+}
+
 @keyframes spin {
     from {
         transform: rotate(0deg)

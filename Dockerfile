@@ -4,6 +4,7 @@ RUN mkdir /app
 COPY index.html /app
 COPY css/ /app/css/
 COPY images/ /app/images/
+COPY videos/ /app/videos/
 COPY js/ /app/js/
 COPY slides/ /app/slides/
 COPY templates/ /app/templates

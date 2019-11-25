@@ -142,9 +142,26 @@ export class Navigator extends HTMLElement {
     }
 
     /**
+     * Check for in-slide appearances on navigation
+     * @returns {boolean} True if an element was revealed
+     */
+    checkForAppears() {
+        const host = this.querySelector("div");
+        const appear = host.querySelectorAll(".appear");
+        if (appear.length) {
+            appear[0].classList.remove("appear");
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Advance to next slide, if it exists. Applies animation if transition is specified
      */
     next() {
+        if (this.checkForAppears()) {
+            return;
+        }
         if (this.hasNext) {
             if (this.currentSlide.transition !== null) {
                 this._animator.beginAnimation(
