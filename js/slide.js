@@ -1,4 +1,7 @@
 // @ts-check
+
+import {DataBinding} from "./dataBinding.js"
+
 /** 
  * Represents a slide 
  * */
@@ -19,6 +22,11 @@ export class Slide {
          * @type {object}
          */
         this._context = {};
+        /**
+         * Data binding helper
+         * @type {DataBinding}
+         */
+        this._dataBinding = new DataBinding();
         /** 
          * The HTML DOM hosting the slide contents
          * @type {HTMLDivElement}
@@ -57,39 +65,9 @@ export class Slide {
         // execute any scripts
         const script = this._html.querySelector("script");
         if (script) {
-            (function (/** @type {string} */src) {
-                return eval(src)
-            }).call(this._context, script.innerText);
-            this.dataBind();
+            this._dataBinding.executeInContext(script.innerText, this._context);
+            this._dataBinding.bindLists(this._html, this._context);
         }
-    }
-
-    /**
-     * Scans for data-binding and applies the bindings
-     */
-    dataBind() {
-        const listBinding = this._html.querySelectorAll("[repeat]");
-        listBinding.forEach(elem => {
-            const parent = elem.parentElement;
-            const expression = elem.getAttribute("repeat");
-            elem.removeAttribute("repeat");
-            const template = elem.outerHTML;
-            parent.removeChild(elem);
-            this._context[expression].forEach(item => {
-                let newTemplate = `${template}`;
-                const matches = newTemplate.match(/\{\{([^\}]*?)\}\}/g);
-                if (matches) {
-                    matches.forEach(match => {
-                        match = match.replace("{{", "").replace("}}", "");
-                        const value = (function (/** @type {string} */src) {
-                            return eval(src)
-                        }).call({ item }, match);
-                        newTemplate = newTemplate.replace(`{{${match}}}`, value);                    
-                    });
-                    parent.innerHTML += newTemplate;
-                }               
-            });
-        });
     }
 
     /** 
