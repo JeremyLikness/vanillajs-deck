@@ -4,8 +4,26 @@ body {
     font-size: 3vh;
 }
 
-button {
+br {
+    clear: both;
+}
+
+label {
+    display: block;
+}
+
+label > div, input {
+    float: left;
+    width: 40vw;
+}
+
+
+button, input {
     font-size: 3vh;
+}
+
+input {
+    padding: 1px;
 }
 
 pre {
@@ -44,8 +62,12 @@ slide-deck img.expandable:hover {
     body {
         font-size: 14px;
     }
-    button {
+    button, input {
         font-size: 14px;
+    }
+
+    label > div, input {
+        width: 90vw;
     }
 }
 
@@ -53,8 +75,8 @@ slide-deck img.expandable:hover {
     body {
         font-size: 2vh;
     }
-    button {
-        font-size: 14px;
+    button, input {
+        font-size: 2vh;
     }
 }
 
@@ -98,7 +120,7 @@ img {
     text-align: center;
 }
 
-slide-deck div {
+slide-deck > div {
     height: 80vh;
     padding: 1em;
 }
@@ -116,7 +138,7 @@ slide-deck div {
     .left {
         text-align: center;
     }
-    slide-deck div {
+    slide-deck > div {
         height: 75vh;
     }
 }

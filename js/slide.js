@@ -65,7 +65,7 @@ export class Slide {
         // execute any scripts
         const script = this._html.querySelector("script");
         if (script) {
-            this._dataBinding.executeInContext(script.innerText, this._context);
+            this._dataBinding.executeInContext(script.innerText, this._context, true);
             this._dataBinding.bindLists(this._html, this._context);
         }
     }

@@ -117,9 +117,11 @@ export class Navigator extends HTMLElement {
      */
     get hasNext() {
         const host = this.querySelector("div");
-        const appear = host.querySelectorAll(".appear");
-        if (appear && appear.length) {
-            return true;
+        if (host) {
+            const appear = host.querySelectorAll(".appear");
+            if (appear && appear.length) {
+                return true;
+            }
         }
         return this._currentIndex < (this.totalSlides - 1);
     }
