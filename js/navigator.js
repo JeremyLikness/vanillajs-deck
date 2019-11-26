@@ -116,6 +116,11 @@ export class Navigator extends HTMLElement {
      * @returns {boolean} True if a subsequent slide exists
      */
     get hasNext() {
+        const host = this.querySelector("div");
+        const appear = host.querySelectorAll(".appear");
+        if (appear && appear.length) {
+            return true;
+        }
         return this._currentIndex < (this.totalSlides - 1);
     }
 
@@ -160,6 +165,7 @@ export class Navigator extends HTMLElement {
      */
     next() {
         if (this.checkForAppears()) {
+            this.dispatchEvent(this.slidesChangedEvent);
             return;
         }
         if (this.hasNext) {

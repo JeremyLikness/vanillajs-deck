@@ -93,7 +93,7 @@ export class Controls extends HTMLElement {
         this._controlRef.first.disabled = !prev;
         this._controlRef.prev.disabled = !prev;
         this._controlRef.next.disabled = !next;
-        this._controlRef.last.disabled = !next;
+        this._controlRef.last.disabled = this._deck.currentIndex === (this._deck.totalSlides - 1);
         this._controlRef.pos.innerText = `${this._deck.currentIndex + 1} / ${this._deck.totalSlides}`;
     }
 }
