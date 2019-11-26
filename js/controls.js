@@ -85,6 +85,9 @@ export class Controls extends HTMLElement {
      * Enables/disables buttons and updates position based on index in the deck
      */
     refreshState() {
+        if (this._controlRef == null) {
+            return;
+        }
         const next = this._deck.hasNext;
         const prev = this._deck.hasPrevious;
         this._controlRef.first.disabled = !prev;

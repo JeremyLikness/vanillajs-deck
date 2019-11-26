@@ -14,6 +14,11 @@ export class Slide {
          * @type {string}
          */
         this._text = text;
+        /**
+         * Context for embedded scripts
+         * @type {object}
+         */
+        this._context = {};
         /** 
          * The HTML DOM hosting the slide contents
          * @type {HTMLDivElement}
@@ -49,6 +54,42 @@ export class Slide {
         else {
             this._nextSlideName = null;
         }
+        // execute any scripts
+        const script = this._html.querySelector("script");
+        if (script) {
+            (function (/** @type {string} */src) {
+                return eval(src)
+            }).call(this._context, script.innerText);
+            this.dataBind();
+        }
+    }
+
+    /**
+     * Scans for data-binding and applies the bindings
+     */
+    dataBind() {
+        const listBinding = this._html.querySelectorAll("[repeat]");
+        listBinding.forEach(elem => {
+            const parent = elem.parentElement;
+            const expression = elem.getAttribute("repeat");
+            elem.removeAttribute("repeat");
+            const template = elem.outerHTML;
+            parent.removeChild(elem);
+            this._context[expression].forEach(item => {
+                let newTemplate = `${template}`;
+                const matches = newTemplate.match(/\{\{([^\}]*?)\}\}/g);
+                if (matches) {
+                    matches.forEach(match => {
+                        match = match.replace("{{", "").replace("}}", "");
+                        const value = (function (/** @type {string} */src) {
+                            return eval(src)
+                        }).call({ item }, match);
+                        newTemplate = newTemplate.replace(`{{${match}}}`, value);                    
+                    });
+                    parent.innerHTML += newTemplate;
+                }               
+            });
+        });
     }
 
     /** 

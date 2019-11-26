@@ -1,0 +1,8 @@
+<title>Data-Binding Example 1</title>
+<h1>Data-Binding Example</h1>
+<ul>
+    <li repeat="list" class="appear">{{item.idx}} &mdash; {{item.value}}</li>
+</ul>
+<script>
+    this.list = [{idx: 0, value:"one"}, {idx: 1, value:"two"}, {idx: 2, value:"three"}];
+</script>
