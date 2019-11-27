@@ -1,6 +1,6 @@
 // @ts-check
 
-import {DataBinding} from "./dataBinding.js"
+import { DataBinding } from "./dataBinding.js"
 
 /** 
  * Represents a slide 
@@ -21,7 +21,7 @@ export class Slide {
          * Context for embedded scripts
          * @type {object}
          */
-        this._context = {};
+        this._context = { };
         /**
          * Data binding helper
          * @type {DataBinding}
@@ -66,7 +66,7 @@ export class Slide {
         const script = this._html.querySelector("script");
         if (script) {
             this._dataBinding.executeInContext(script.innerText, this._context, true);
-            this._dataBinding.bindLists(this._html, this._context);
+            this._dataBinding.bindAll(this._html, this._context);
         }
     }
 

@@ -72,6 +72,30 @@ export class DataBinding {
     }
 
     /**
+     * 
+     * @param {HTMLElement} elem The parent element 
+     * @param {object} context The context to use for binding 
+     */
+    bindAll(elem, context) {
+        this.bindLists(elem, context);
+        this.bindObservables(elem, context);
+    }
+
+    /**
+     * Searches for "data-bind" attribute to data-bind observables
+     * @param {HTMLElement} elem The parent element to search 
+     * @param {object} context The context to use for binding 
+     */
+    bindObservables(elem, context) {
+        const dataBinding = elem.querySelectorAll("[data-bind]");
+        dataBinding.forEach(elem => {
+            this.bindValue(
+                /** @type {HTMLInputElement} */(elem), 
+                context[elem.getAttribute("data-bind")]);
+        });
+    }
+    
+    /**
      * Searches for "repeat" attribute to data-bind lists
      * @param {HTMLElement} elem The parent element to search 
      * @param {object} context The context to use for binding 

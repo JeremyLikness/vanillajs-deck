@@ -1,30 +1,27 @@
 <title>Data-Binding Example 1</title>
 <h1>Data-Binding Example</h1>
-<label for="first"><div>Number:</div><input type="text" id="first"/></label>
-<label for="second"><div>Multiplied by Number:</div><input type="text" id="second"/></label>
-<label for="result"><div>Result:</div><input type="text" id="result" disabled/></label>
-<label for="firstName"><div>First Name:</div><input type="text" id="firstName"/></label>
-<label for="lastName"><div>Last Name:</div><input type="text" id="lastName"/></label>
-<label for="fullName"><div>Full Name:</div><input type="text" id="fullName" disabled/></label>
+<label for="first"><div>Number:</div><input type="text" id="first" data-bind="n1"/></label>
+<label for="second"><div>Multiplied by Number:</div><input type="text" id="second" data-bind="n2"/></label>
+<label for="result"><div>Result:</div><input type="text" id="result" data-bind="result" disabled/></label>
+<label for="firstName"><div>First Name:</div><input type="text" id="firstName" data-bind="first"/></label>
+<label for="lastName"><div>Last Name:</div><input type="text" id="lastName" data-bind="last"/></label>
+<label for="fullName"><div>Full Name:</div><input type="text" id="fullName" data-bind="full" disabled/></label>
 <br/>
 <ul>
     <li repeat="list" class="appear">{{item.idx}} &mdash; {{item.value}}</li>
 </ul>
 <script>
     this.list = [{idx: 0, value:"one"}, {idx: 1, value:"two"}, {idx: 2, value:"three"}];
-    const bindings = () => {
-        var n1 = this.observable(2);
-        var n2 = this.observable(2);
-        var result = this.computed(() => n1.value*n2.value, [n1, n2]);
-        var first = this.observable("Jeremy");
-        var last = this.observable("");
-        var full = this.computed(() => `${first.value} ${last.value}`.trim(), [first, last]);
-        this.bindValue(document.getElementById("first"), n1);
-        this.bindValue(document.getElementById("second"), n2);
-        this.bindValue(document.getElementById("result"), result);
-        this.bindValue(document.getElementById("firstName"), first);
-        this.bindValue(document.getElementById("lastName"), last);
-        this.bindValue(document.getElementById("fullName"), full);
-    };
-    setTimeout(bindings, 0);
+    const first = this.observable("Jeremy");
+    const last = this.observable("");
+    const n1 = this.observable(2);
+    const n2 = this.observable(4);
+    // assign to context
+    this.n1 = n1;
+    this.n2 = n2;
+    this.first = first;
+    this.last = last;
+    // computed
+    this.result = this.computed(() => n1.value*n2.value, [n1, n2]);
+    this.full = this.computed(() => `${first.value} ${last.value}`.trim(), [first, last]);
 </script>
