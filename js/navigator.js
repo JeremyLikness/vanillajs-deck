@@ -43,7 +43,7 @@ export class Navigator extends HTMLElement {
             if (this._route !== this._router.getRoute()) {
                 this._route = this._router.getRoute();
                 if (this._route) {
-                    var slide = parseInt(this._route) - 1;
+                    const slide = parseInt(this._route) - 1;
                     this.jumpTo(slide);
                 }
             }

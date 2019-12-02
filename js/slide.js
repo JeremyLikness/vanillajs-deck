@@ -51,7 +51,7 @@ export class Slide {
             this._transition = null;
         }
         /** @type{NodeListOf<HTMLElement>} */
-        const hasNext = this._html.querySelectorAll("nextslide");
+        const hasNext = this._html.querySelectorAll("next-slide");
         if (hasNext.length > 0) {
             /** 
              * The name of the next slide to load

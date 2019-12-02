@@ -55,7 +55,7 @@ export class DataBinding {
      * @param {Observable} observable The observable instance to bind to 
      */
     bindValue(input, observable) {
-        let initialValue = observable.value;
+        const initialValue = observable.value;
         input.value = initialValue;
         observable.subscribe(() => input.value = observable.value);
         /**
@@ -123,4 +123,3 @@ export class DataBinding {
         });
     }
 }
-

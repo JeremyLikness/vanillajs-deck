@@ -38,6 +38,11 @@ pre {
     font-family: "consolas", sans-serif
 }
 
+ul {
+    display: table;
+    margin: 0 auto;
+}
+
 video {
     height: 40vh;
     max-width: 90vw;
@@ -150,6 +155,6 @@ slide-controls {
     float: left;
 }
 
-nextslide, transition {
+next-slide, transition {
     display: none;
 }
