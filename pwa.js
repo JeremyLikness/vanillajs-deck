@@ -1,14 +1,6 @@
 // @ts-check
 
 /**
- * @typedef {object} CacheVersions
- * @property {string} assets Cache name for base assets
- * @property {string} content Cache for pages
- * @property {string} offline Cache for offline content
- * @property {string} notFound Cache for 404 content
- */
-
-/**
  * @typedef {function} AddEventListener
  * @param {string} eventName Name of event to add
  * @param {EventListener} callback Callback when event is fired
@@ -56,20 +48,6 @@ class Pwa {
             '/images/logo.png',
             '/js/app.js',
         ];
-        /** 
-         * Files needed for offline mode
-         * @type {string[]}
-         */
-        this.OFFLINE_CACHE_FILES = [
-            '/pwa/offline.html'
-        ];
-        /**
-         * Files needed for 404 page
-         * @type {string[]}
-         */
-        this.NOT_FOUND_CACHE_FILES = [
-            '/pwa/404.html'
-        ];
         /**
          * Page to redirect to when offline
          * @type {string}
@@ -81,48 +59,30 @@ class Pwa {
          */
         this.NOT_FOUND_PAGE = '/pwa/404.html';
         /**
-         * Versioned caches
-         * @type {CacheVersions}
+         * Versioned cache
+         * @type {string}
          */
-        this.CACHE_VERSIONS = {
-            assets: `assets-v${this.CACHE_VERSION}`,
-            content: `content-v${this.CACHE_VERSION}`,
-            offline: `offline-v${this.CACHE_VERSION}`,
-            notFound: `404-v${this.CACHE_VERSION}`,
-        };
+        this.CACHE_NAME = `content-v${this.CACHE_VERSION}`;
         /**
          * The time to live in cache
          * @type {object}
          */
-        this.MAX_TTL = {
-            /** @type {number} Default time to live in seconds */
-            '/': 3600,
-            /** @type {number} Time to live for pages in seconds */
-            html: 43200,
-            /** @type {number} Time to live for JSON in seconds */
-            json: 43200,
-            /** @type {number} Time to live for scripts in seconds */
-            js: 86400,
-            /** @type {number} Time to live for stylesheets in seconds */
-            css: 86400,
-        };
+        this.MAX_TTL = 86400;
 
         /**
-         * Supported methods for HTTP requests
+         * Extensions with no expiration in the cache
          * @type {string[]}
          */
-        this.SUPPORTED_METHODS = [
-            'GET',
-        ];
+        this.TTL_EXCEPTIONS = ["jpg", "jpeg", "png", "gif", "mp4"];
     }
 
     /**
     * Get the extension of a file from URL
     * @param {string} url
-    * @returns {string}
+    * @returns {string} The extension
     */
     getFileExtension(url) {
-        let extension = url.split('.').reverse()[0].split('?')[0];
+        const extension = url.split('.').reverse()[0].split('?')[0];
         return (extension.endsWith('/')) ? '/' : extension;
     }
 
@@ -134,32 +94,21 @@ class Pwa {
     getTTL(url) {
         if (typeof url === 'string') {
             const extension = this.getFileExtension(url);
-            if (typeof this.MAX_TTL[extension] === 'number') {
-                return this.MAX_TTL[extension];
-            } else {
-                return null;
-            }
-        } else {
-            return null;
+            return ~this.TTL_EXCEPTIONS.indexOf(extension) ?
+                this.MAX_TTL : null;
         }
+        return null;
     }
 
     async installServiceWorker() {
         try {
-            await Promise.all([
-                caches.open(this.CACHE_VERSIONS.assets).then((cache) => {
-                    return cache.addAll(this.BASE_CACHE_FILES);
-                }, err => console.error(`Error with ${this.CACHE_VERSIONS.assets}`, err)),
-                caches.open(this.CACHE_VERSIONS.offline).then((cache_1) => {
-                    return cache_1.addAll(this.OFFLINE_CACHE_FILES);
-                }, err_1 => console.error(`Error with ${this.CACHE_VERSIONS.offline}`, err_1)),
-                caches.open(this.CACHE_VERSIONS.notFound).then((cache_2) => {
-                    return cache_2.addAll(this.NOT_FOUND_CACHE_FILES);
-                }, err_2 => console.error(`Error with ${this.CACHE_VERSIONS.notFound}`, err_2))]);
+            await caches.open(this.CACHE_NAME).then((cache) => {
+                return cache.addAll(this.BASE_CACHE_FILES);
+            }, err => console.error(`Error with ${this.CACHE_NAME}`, err));
             return this.scope.skipWaiting();
         }
-        catch (err_3) {
-            return console.error("Error with installation: ", err_3);
+        catch (err) {
+            return console.error("Error with installation: ", err);
         }
     }
 
@@ -169,34 +118,26 @@ class Pwa {
      */
     cleanupLegacyCache() {
 
-        const currentCaches = Object.keys(this.CACHE_VERSIONS).map((key) => {
-            return this.CACHE_VERSIONS[key];
-        });
+        const currentCaches = [this.CACHE_NAME];
 
         return new Promise(
             (resolve, reject) => {
-                caches.keys().then((keys) => {
-                    return keys.filter((key) => {
-                        return !~currentCaches.indexOf(key);
-                    });
-                }).then((legacy) => {
-                    if (legacy.length) {
-                        Promise.all(legacy.map((legacyKey) => {
-                            return caches.delete(legacyKey);
-                        })
-                        ).then(() => {
+                caches.keys()
+                    .then((keys) => keys.filter((key) => !~currentCaches.indexOf(key)))
+                    .then((legacy) => {
+                        if (legacy.length) {
+                            Promise.all(legacy.map((legacyKey) => caches.delete(legacyKey))
+                            ).then(() => resolve()).catch((err) => {
+                                console.error("Error in legacy cleanup: ", err);
+                                reject(err);
+                            });
+                        } else {
                             resolve();
-                        }).catch((err) => {
-                            console.error("Error in legacy cleanup: ", err);
-                            reject(err);
-                        });
-                    } else {
-                        resolve();
-                    }
-                }).catch((err) => {
-                    console.error("Error in legacy cleanup: ", err);
-                    reject(err);
-                });
+                        }
+                    }).catch((err) => {
+                        console.error("Error in legacy cleanup: ", err);
+                        reject(err);
+                    });
             });
     }
 
@@ -204,23 +145,13 @@ class Pwa {
      * Pre-fetches URL to store to cache
      * @param {string} url 
      */
-    preCacheUrl(url) {
-        caches.open(this.CACHE_VERSIONS.content).then((cache) => {
-            cache.match(url).then((response) => {
-                if (!response) {
-                    return fetch(url);
-                } else {
-                    // already in cache, nothing to do.
-                    return null;
-                }
-            }).then((response) => {
-                if (response) {
-                    return cache.put(url, response.clone());
-                } else {
-                    return null;
-                }
-            });
-        });
+    async preCacheUrl(url) {
+        const cache = await caches.open(this.CACHE_NAME);
+        const response = await cache.match(url);
+        if (!response) {
+            return fetch(url).then(resp => cache.put(url, resp.clone()));
+        }
+        return null;
     }
 
     /**
@@ -249,70 +180,44 @@ class Pwa {
 
         this.scope.addEventListener('fetch', event => {
             event.respondWith(
-                caches.open(this.CACHE_VERSIONS.content)
-                    .then(async (cache) => {
-                        try {
-                            const response = await cache.match(event.request);
-                            if (response) {
-                                const headers = response.headers.entries();
-                                let date = null;
-                                for (let pair of headers) {
-                                    if (pair[0] === 'date') {
-                                        date = new Date(pair[1]);
-                                    }
-                                }
-                                if (date) {
-                                    let age = parseInt(((new Date().getTime() - date.getTime()) / 1000).toString());
-                                    let ttl = this.getTTL(event.request.url);
-                                    if (ttl && age > ttl) {
-                                        return new Promise(async (resolve) => {
-                                            try {
-                                                const updatedResponse = await fetch(event.request.clone());
-                                                if (updatedResponse) {
-                                                    cache.put(event.request, updatedResponse.clone());
-                                                    resolve(updatedResponse);
-                                                }
-                                                else {
-                                                    resolve(response);
-                                                }
-                                            }
-                                            catch (e) {
-                                                resolve(response);
-                                            }
-                                        }).catch(() => response);
-                                    }
-                                    else {
-                                        return response;
-                                    }
-                                }
-                                else {
-                                    return response;
-                                }
-                            }
-                            else {
-                                return null;
+                caches.open(this.CACHE_NAME).then(async cache => {
+                    const response = await cache.match(event.request);
+                    if (response) {
+                        // found it, see if expired
+                        const headers = response.headers.entries();
+                        let date = null;
+                        for (let pair of headers) {
+                            if (pair[0] === 'date') {
+                                date = new Date(pair[1]);
+                                break;
                             }
                         }
-                        catch (error) {
-                            console.error('Error in fetch handler:', error);
-                            throw error;
+                        if (!date) {
+                            return response;
                         }
+                        const age = parseInt(((new Date().getTime() - date.getTime()) / 1000).toString());
+                        const ttl = this.getTTL(event.request.url);
+                        if (ttl === null || (ttl && age < ttl)) {
+                            return response;
+                        }
+                    }
+                    // not found or expired, fresh request
+                    return fetch(event.request.clone()).then(resp => {
+                        if (resp.status < 400) {
+                            // good to go
+                            cache.put(event.request, resp.clone());
+                            return resp;
+                        }
+                        else {
+                            // not found
+                            return cache.match(this.NOT_FOUND_PAGE);
+                        }
+                    }).catch(err => {
+                        // offline
+                        console.error("Error resulting in offline", err);
+                        return cache.match(this.OFFLINE_PAGE);
                     })
-            );
-        });
-
-        this.scope.addEventListener('message', (event) => {
-            if (typeof event.data === 'object' &&
-                typeof event.data.action === 'string') {
-                switch (event.data.action) {
-                    case 'cache':
-                        this.preCacheUrl(event.data.url);
-                        break;
-                    default:
-                        console.log(`Unknown action: ${event.data.action}`);
-                        break;
-                }
-            }
+                }));
         });
     }
 }
