@@ -1,0 +1,31 @@
+{
+    "name": "Vanilla.js: Modern 1st Party JavaScript",
+    "short_name": "vanilla-js",
+    "description": "A Single Page Application built in 100% pure modern JavaScript with no frameworks.",
+    "icons": [{
+      "src": "/appicons/favicon-128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    }, {
+      "src": "/appicons/apple-touch-icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    }, {
+      "src": "/appicons/apple-touch-icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    }, {
+      "src": "/appicons/favicon-196x196.png",
+      "sizes": "196x196",
+      "type": "image/png"
+    }, {
+      "src": "/appicons/splash.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }],
+    "start_url": "/index.html",
+    "display": "standalone",
+    "orientation" : "any",
+    "background_color": "#FFFFFF",
+    "theme_color": "#FFFFFF"
+  }
