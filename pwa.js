@@ -95,7 +95,7 @@ class Pwa {
         if (typeof url === 'string') {
             const extension = this.getFileExtension(url);
             return ~this.TTL_EXCEPTIONS.indexOf(extension) ?
-                this.MAX_TTL : null;
+                null : this.MAX_TTL;
         }
         return null;
     }
@@ -224,6 +224,7 @@ class Pwa {
 
 /** 
  * Sadly this is a pathetic hack to workaround JsDoc limitations
+ * Casting what the IDE thinks is Window to service worker scope 
  * @type {any} */
 const _self = self;
 var pwa = new Pwa(/**@type {ServiceWorkerGlobalScope}*/(_self));
