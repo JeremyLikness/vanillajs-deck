@@ -1,0 +1,21 @@
+<title>The Spread Operator</title>
+<h1>The Spread Operator</h1>
+<pre>
+const list = [1,1,2,3,5];
+const bigger_list = [...list, 8, 13];
+// [1, 1, 2, 3, 5, 8, 13];
+</pre>
+<pre class="appear">
+const fn = (x, y, z) => x + y + z;
+fn(bigger_list);
+// "1,1,2,3,5,8,13ndefinedundefined" ([1,1,2,3,5,8,13] + undefined + undefined)
+fn(...bigger_list);
+// 4 (1 + 1 + 2)
+</pre>
+<pre class="appear">
+const src = { foo: "bar" };
+const cpy = { ...src }; // { foo: "bar" }
+const tgt = { ...src, bar: "foo" }
+// { foo: "bar", bar: "foo" }
+</pre>
+<next-slide>150-destructuring</next-slide>

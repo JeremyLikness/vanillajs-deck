@@ -2,25 +2,20 @@
 <h1>Arrow Functions (Gosinta)</h1>
 <pre>
 var solarsystem = {
-    planets: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 
-    'Saturn', 'Uranus', 'Neptune', 'Pluto (?)'],
+    planets: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto (?)'],
     showPlanets: function() {
-        this.planets.forEach(function(planet, idx) {
-            console.log(this.planets[idx]);
-        })
-    }
-};
+        this.planets.forEach(function(planet, idx) { 
+            console.log(this.planets[idx]);});
+    }};
 solarsystem.showPlanets(); // crash! ⛔ 
 </pre>
 <pre class="appear">
 var solarsystem = {
-    planets: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 
-    'Saturn', 'Uranus', 'Neptune', 'Pluto (?)'],
+    planets: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto (?)'],
     showPlanets: function() {
-        this.planets.forEach((planet, idx) => {
-            console.log(this.planets[idx]);
-        })
-    }
-};
+        this.planets.forEach((planet, idx) => { 
+            console.log(this.planets[idx]);});
+    }};
 solarsystem.showPlanets(); // success! 🌍
 </pre>
+<next-slide>130-string-power</next-slide>

@@ -1,0 +1,16 @@
+<title>Classes</title>
+<h1>Classes</h1>
+<pre>
+class shape {
+    constructor(sides) {
+        this._sides = sides;
+    }
+    get sides() { return this._sides; }
+    static makeShape(sides) {
+        return new shape(sides);
+    }
+}
+const triangle = shape.makeShape(3);
+// triangle.sides = 3
+</pre>
+<next-slide>165-classes-2</next-slide>

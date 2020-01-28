@@ -1,0 +1,21 @@
+<title>Destructuring</title>
+<h1>Destructuring</h1>
+<pre>
+var [x,y] = [1,2];
+// x=1, y=2
+[x,y] = [y,x];
+// x=2, y=1
+</pre>
+<pre class="appear">
+const obj = { foo: "bar", bar: "foo" };
+const {foo: f, bar} = obj;
+// f = "bar", bar = "foo";
+</pre>
+<pre class="appear">
+const twoRandos = () => [Math.random(), Math.random()];
+const randos = twoRandos();
+// [0.45235454, 0.6455656]
+const [random1, random2] = twoRandos();
+// random1 = 0.45235454, random2 = 0.6455656
+</pre>
+<next-slide>160-classes</next-slide>
