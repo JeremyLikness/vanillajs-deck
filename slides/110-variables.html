@@ -1,0 +1,19 @@
+<title>JavaScript Scope and Variables</title>
+<h1>JavaScript Scope and Variables</h1>
+<pre>var x = 1;</pre>
+<pre class="appear">
+// local scope
+for (let x = 1; x &lt; 100; x+=1) {...}
+var y = 1;
+function process(inp) {
+    let y = inp * 2;
+    return y;
+}
+process(y);
+</pre>
+<pre class="appear">
+// constants
+const x = 1;
+x = 2; // 💣 BOOM!
+</pre>
+<next-slide>120-gosinta</next-slide>

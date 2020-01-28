@@ -4,6 +4,10 @@ body {
     font-size: 3vh;
 }
 
+code {
+    font-size: 3vh;
+}
+
 br {
     clear: both;
 }
@@ -63,8 +67,23 @@ slide-deck img.expandable:hover {
     max-height: 80vh;
 }
 
+div.card {
+    margin: 0.5em;
+    padding: 1.0em;
+    float: left;
+    text-align: center;
+    border: solid 2px darkgreen;
+    background: lightcyan;
+    width: 18vw;
+    height: 12vh;
+}
+
+div.card span {
+    height: 12vh;
+}
+
 @media only screen and (max-width: 800px) {
-    body {
+    body, code {
         font-size: 14px;
     }
     button, input {
@@ -74,10 +93,13 @@ slide-deck img.expandable:hover {
     label > div, input {
         width: 90vw;
     }
+    div.card {
+        width: 80vw;
+    }
 }
 
 @media only screen and (max-width: 1200px) {
-    body {
+    body, code {
         font-size: 2vh;
     }
     button, input {
@@ -123,6 +145,7 @@ img {
 
 .center {
     text-align: center;
+    vertical-align: middle;
 }
 
 slide-deck > div {

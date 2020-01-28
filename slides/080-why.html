@@ -1,8 +1,10 @@
 <title>Why Frameworks in the First Place?</title>
 <h1>Why Frameworks in the First Place?</h1>
-<ul>
-    <li class="appear" repeat="why">{{item}}</li>
-</ul>
+<div class="center">
+    <div class="card appear" repeat="why">
+        <span>{{item}}</span>
+    </div>
+</div>
 <script>
     this.why = [
         "Differences in the DOM (i.e. jQuery normalization)",
@@ -11,7 +13,8 @@
         "Asynchronous module loading/dependency graph",
         "Testability",
         "Databinding",
-        "Contacts (Types and Interfaces ➡ TypeScript)",
+        "Contracts (Types and Interfaces ➡ TypeScript)",
         "Minification or \"Packing\""
     ];
 </script>
+<next-slide>090-embrace</next-slide>

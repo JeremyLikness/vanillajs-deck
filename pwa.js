@@ -33,7 +33,7 @@ class Pwa {
          * Cache version
          * @type {number}
          */
-        this.CACHE_VERSION = 1.0;
+        this.CACHE_VERSION = 1.2;
         /**
          * Pre-emptive files to cache
          * @type {string[]}
@@ -181,24 +181,26 @@ class Pwa {
         this.scope.addEventListener('fetch', event => {
             event.respondWith(
                 caches.open(this.CACHE_NAME).then(async cache => {
-                    const response = await cache.match(event.request);
-                    if (response) {
-                        // found it, see if expired
-                        const headers = response.headers.entries();
-                        let date = null;
-                        for (let pair of headers) {
-                            if (pair[0] === 'date') {
-                                date = new Date(pair[1]);
-                                break;
+                    if (!event.request.url.startsWith("http://localhost")) {
+                        const response = await cache.match(event.request);
+                        if (response) {
+                            // found it, see if expired
+                            const headers = response.headers.entries();
+                            let date = null;
+                            for (let pair of headers) {
+                                if (pair[0] === 'date') {
+                                    date = new Date(pair[1]);
+                                    break;
+                                }
                             }
-                        }
-                        if (!date) {
-                            return response;
-                        }
-                        const age = parseInt(((new Date().getTime() - date.getTime()) / 1000).toString());
-                        const ttl = this.getTTL(event.request.url);
-                        if (ttl === null || (ttl && age < ttl)) {
-                            return response;
+                            if (!date) {
+                                return response;
+                            }
+                            const age = parseInt(((new Date().getTime() - date.getTime()) / 1000).toString());
+                            const ttl = this.getTTL(event.request.url);
+                            if (ttl === null || (ttl && age < ttl)) {
+                                return response;
+                            }
                         }
                     }
                     // not found or expired, fresh request
