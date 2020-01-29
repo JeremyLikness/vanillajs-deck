@@ -38,7 +38,7 @@ export class Controls extends HTMLElement {
      * Called when the element is inserted into the DOM. Used to fetch the template and wire into the related Navigator instance.
      */
     async connectedCallback() {
-        const response = await fetch("/templates/controls.html");
+        const response = await fetch("./templates/controls.html");
         const template = await response.text();
         this.innerHTML = "";
         const host = document.createElement("div");
