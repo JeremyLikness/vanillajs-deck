@@ -1,0 +1,44 @@
+name: Build and Deploy Vanilla.js
+env:
+  OUTPUT_PATH: ${{ github.workspace }}/.output
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build_website:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Index
+        run: cp index.html ${{ env.OUTPUT_PATH }}
+        
+      - name: Publish website output
+        uses: actions/upload-artifact@v1
+        with:
+          name: website
+          path: ${{ env.OUTPUT_PATH }}
+          
+  deploy_website:
+    runs-on: ubuntu-latest
+    needs: [build_website]
+    env:
+      STORAGE_NAME: jlikme
+      RG_NAME: jlik-me
+
+    steps:
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Download website
+        uses: actions/download-artifact@v1
+        with:
+          name: website
+          path: ${{ env.OUTPUT_PATH }}
+
+      - name: Deploy to Azure Storage
+        run: az storage blob upload-batch --source ${{ env.OUTPUT_PATH }} --destination \$web/vanillajs --account-name ${STORAGE_NAME}
