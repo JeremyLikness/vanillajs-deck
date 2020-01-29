@@ -1,6 +1,6 @@
 name: Build and Deploy Vanilla.js
 env:
-  OUTPUT_PATH: ${{ github.workspace }}/.output
+  OUTPUT_PATH: ${{ github.workspace }}/.output/
 
 on:
   push:
@@ -14,7 +14,15 @@ jobs:
       - uses: actions/checkout@v1
 
       - name: Index
-        run: cp index.html ${{ env.OUTPUT_PATH }}
+        run: |
+          cp index.html favicon.ico manifest.json pwa.js robots.txt ${{ env.OUTPUT_PATH }}
+          cp -r css/ ${{ env.OUTPUT_PATH }}css/
+          cp -r images/ ${{ env.OUTPUT_PATH }}images/
+          cp -r videos/ ${{ env.OUTPUT_PATH }}videos/
+          cp -r js/ ${{ env.OUTPUT_PATH }}js/
+          cp -r slides/ ${{ env.OUTPUT_PATH }}slides/
+          cp -r templates/ ${{ env.OUTPUT_PATH }}templates/
+          cp -r appicons/ ${{ env.OUTPUT_PATH }}appicons/
         
       - name: Publish website output
         uses: actions/upload-artifact@v1
@@ -40,5 +48,8 @@ jobs:
           name: website
           path: ${{ env.OUTPUT_PATH }}
 
+      - name: Fix Base URL
+        run: sed -i "s/base href=\"\/\"/base href=\"\/vanillajs\/\"/g" ${{ env.OUTPUT_PATh }}index.html
+         
       - name: Deploy to Azure Storage
         run: az storage blob upload-batch --source ${{ env.OUTPUT_PATH }} --destination \$web/vanillajs --account-name ${STORAGE_NAME}
