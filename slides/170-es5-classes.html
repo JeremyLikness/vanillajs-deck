@@ -1,0 +1,19 @@
+<title>Looking Back...</title>
+<h1>Looking Back...</h1>
+<pre>
+var shape = (function () {
+    function shape(sides) {
+        this._sides = sides;
+    }
+    Object.defineProperty(shape.prototype, "sides", {
+        get: function () { return this._sides; },
+        enumerable: true,
+        configurable: true
+    });
+    shape.makeShape = function (sides) {
+        return new shape(sides);
+    };
+    return shape;
+}());    
+</pre>
+<next-slide>173-es5-extends</next-slide>
