@@ -50,7 +50,7 @@ jobs:
           path: ${{ env.OUTPUT_PATH }}
 
       - name: Fix Base URL
-        run: sed -i "s/base href=\"\/\"/base href=\"\/vanillajs\/\"/g" ${{ env.OUTPUT_PATh }}index.html
+        run: sed -i "s/base href=\"\/\"/base href=\"\/vanillajs\/\"/g" ${{ env.OUTPUT_PATH }}index.html
          
       - name: Deploy to Azure Storage
         run: az storage blob upload-batch --source ${{ env.OUTPUT_PATH }} --destination \$web/vanillajs --account-name ${STORAGE_NAME}
