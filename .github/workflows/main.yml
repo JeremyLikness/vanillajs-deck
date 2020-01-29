@@ -15,6 +15,7 @@ jobs:
 
       - name: Index
         run: |
+          mkdir ${{ env.OUTPUT_PATH }}
           cp index.html favicon.ico manifest.json pwa.js robots.txt ${{ env.OUTPUT_PATH }}
           cp -r css/ ${{ env.OUTPUT_PATH }}css/
           cp -r images/ ${{ env.OUTPUT_PATH }}images/
