@@ -1,5 +1,7 @@
 # Vanilla.js Deck
 
+![Build and Deploy Vanilla.js](https://github.com/JeremyLikness/vanillajs-deck/workflows/Build%20and%20Deploy%20Vanilla.js/badge.svg)
+
 A Vanilla.js Single Page App (SPA) slide deck for a presentation about Vanilla.js. Yes, this is inception! No builds (unless you
 count the included Docker image) and no frameworks, just pure JavaScript for a SPA application that features:
 
