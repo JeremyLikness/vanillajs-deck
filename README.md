@@ -32,7 +32,7 @@ If you prefer, you can build a Docker image and run the presentation from there.
 
 `cd vanillajs-deck`
 
-`docker built -t vanillajs-deck .`
+`docker build -t vanillajs-deck .`
 
 `docker run --rm -d -p 8080:80 vanillajs-deck`
 
