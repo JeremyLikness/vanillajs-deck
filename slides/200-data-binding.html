@@ -1,14 +1,16 @@
-<title>Data-Binding Example 1</title>
-<h1>Data-Binding Example</h1>
+<title>Databinding</title>
+<h1>Databinding Examples</h1>
+<h2 class="anim-spin">&lt;&mdash;&gt;</h2>
 <label for="first"><div>Number:</div><input type="text" id="first" data-bind="n1"/></label>
 <label for="second"><div>Multiplied by Number:</div><input type="text" id="second" data-bind="n2"/></label>
 <label for="result"><div>Result:</div><input type="text" id="result" data-bind="result" disabled/></label>
 <label for="firstName"><div>First Name:</div><input type="text" id="firstName" data-bind="first"/></label>
 <label for="lastName"><div>Last Name:</div><input type="text" id="lastName" data-bind="last"/></label>
 <label for="fullName"><div>Full Name:</div><input type="text" id="fullName" data-bind="full" disabled/></label>
+<label for="backwards"><div>Backwards:</div><input type="text" id="backwards" data-bind="back" disabled/></label>
 <br/>
 <ul>
-    <li repeat="list" class="appear">{{item.idx}} &mdash; {{item.value}}</li>
+    <li repeat="list">{{item.idx}} &mdash; {{item.value}}</li>
 </ul>
 <script>
     this.list = [{idx: 0, value:"one"}, {idx: 1, value:"two"}, {idx: 2, value:"three"}];
@@ -23,5 +25,7 @@
     this.last = last;
     // computed
     this.result = this.computed(() => n1.value*n2.value, [n1, n2]);
-    this.full = this.computed(() => `${first.value} ${last.value}`.trim(), [first, last]);
+    const full = this.computed(() => `${first.value} ${last.value}`.trim(), [first, last]);
+    this.full = full;
+    this.back = this.computed(() => `${full.value.split('').reverse().join('')}`, [full]);
 </script>
