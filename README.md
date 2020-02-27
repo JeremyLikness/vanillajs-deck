@@ -12,6 +12,10 @@ count the included Docker image) and no frameworks, just pure JavaScript for a S
 - Reusable components
 - Data-binding
 
+There is a full walkthrough of the code available here:
+
+📄 [Build a Single Page Application (SPA) app with Vanilla.js JavaScript](https://blog.jeremylikness.com/blog/build-a-spa-site-with-vanillajs/)
+
 ## Getting Started
 
 Optionally fork then clone the repo:
